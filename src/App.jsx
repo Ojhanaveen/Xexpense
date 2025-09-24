@@ -27,14 +27,14 @@ function App() {
   // Add transaction (income or expense)
   const addTransaction = (transaction, isIncome = false) => {
     if (isIncome) {
-      setBalance((prev) => prev + transaction.amount);
+      setBalance((prev) => prev + Number(transaction.price));
     } else {
-      if (transaction.amount > balance) {
+      if (transaction.price > balance) {
         alert("Insufficient balance!");
         return;
       }
       setExpenses((prev) => [...prev, transaction]);
-      setBalance((prev) => prev - transaction.amount);
+      setBalance((prev) => prev - transaction.price);
     }
   };
 

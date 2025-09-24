@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function ExpenseForm({ balance, setBalance, expenses, setExpenses }) {
+function ExpenseForm({ isIncome = false, addTransaction, closeModal }) {
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -15,39 +15,78 @@ function ExpenseForm({ balance, setBalance, expenses, setExpenses }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { title, price, category, date } = formData;
-    if (!title || !price || !category || !date) {
-      alert("Please fill in all fields");
-      return;
+
+    if (isIncome) {
+      if (!price) {
+        alert("Please enter an amount");
+        return;
+      }
+      addTransaction({ price: Number(price) }, true);
+    } else {
+      if (!title || !price || !category || !date) {
+        alert("Please fill in all fields");
+        return;
+      }
+      addTransaction(
+        { ...formData, price: Number(price), id: Date.now(), type: "expense" },
+        false
+      );
     }
-    const amount = Number(price);
-    if (amount > balance) {
-      alert("Insufficient balance!");
-      return;
-    }
-    const newExpense = { ...formData, id: Date.now(), type: "expense" };
-    setExpenses([...expenses, newExpense]);
-    setBalance(balance - amount);
+
     setFormData({ title: "", price: "", category: "", date: "" });
+    closeModal();
   };
 
   return (
-    <div className="card">
-      <button type="button" onClick={() => document.getElementById("expense-form").classList.toggle("hidden")}>+ Add Expense</button>
-      <form id="expense-form" className="hidden" onSubmit={handleSubmit}>
-        <input name="title" value={formData.title} onChange={handleChange} placeholder="Expense Title" />
-        <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Expense Amount" />
-        <select name="category" value={formData.category} onChange={handleChange}>
-          <option value="">Select Category</option>
-          <option value="food">Food</option>
-          <option value="travel">Travel</option>
-          <option value="entertainment">Entertainment</option>
-          <option value="shopping">Shopping</option>
-          <option value="other">Other</option>
-        </select>
-        <input type="date" name="date" value={formData.date} onChange={handleChange} />
-        <button type="submit">Add Expense</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} className="form">
+      {!isIncome && (
+        <input
+          type="text"
+          name="title"
+          placeholder="Expense Title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
+      )}
+
+      <input
+        type="number"
+        name="price"
+        placeholder={isIncome ? "Income Amount" : "Expense Amount"}
+        value={formData.price}
+        onChange={handleChange}
+        required
+      />
+
+      {!isIncome && (
+        <>
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Category</option>
+            <option value="food">Food</option>
+            <option value="travel">Travel</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="shopping">Shopping</option>
+            <option value="other">Other</option>
+          </select>
+
+          <input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            required
+          />
+        </>
+      )}
+
+      <button type="submit">{isIncome ? "Add Balance" : "Add Expense"}</button>
+    </form>
   );
 }
 
