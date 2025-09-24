@@ -33,4 +33,4 @@ function ExpenseList({ expenses, setExpenses }) {
   );
 }
 
-export default ExpenseList; // ✅ make sure this exists
+export default ExpenseList; 
