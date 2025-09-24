@@ -1,155 +1,161 @@
-/* General Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* App Container */
-.app-container {
-  min-height: 100vh;
-  width: 100%;
-  background-color: #f5f6fa;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* Header */
-h1 {
+/* Root container */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
   text-align: center;
-  color: #2c3e50;
-  font-size: 2rem;
-  margin-bottom: 15px;
+  font-family: Arial, sans-serif;
+  background: #f5f7fa;
+  min-height: 100vh;
 }
 
-/* Balance Section */
-.wallet-balance {
+/* Cards container */
+.cards-container {
   display: flex;
+  gap: 1rem;
   justify-content: center;
-  align-items: center;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #27ae60;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
 }
 
-/* Buttons */
-button {
-  cursor: pointer;
-  padding: 10px 15px;
-  border-radius: 8px;
+.card {
+  flex: 1 1 250px;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+  margin-bottom: 1rem;
+}
+
+.card button {
+  padding: 0.6rem 1rem;
+  background: #007bff;
   border: none;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-button[type="button"] {
-  background-color: #2980b9;
-  color: #fff;
-  margin: 5px;
-}
-
-button[type="button"]:hover {
-  background-color: #1c5981;
-}
-
-button[type="submit"] {
-  background-color: #27ae60;
-  color: #fff;
-}
-
-button[type="submit"]:hover {
-  background-color: #1e874b;
-}
-
-/* Expense Form */
-.expense-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.expense-form input,
-.expense-form select {
-  padding: 10px;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  color: white;
   font-size: 1rem;
+  cursor: pointer;
 }
 
-/* Expense List */
-.expense-list {
+.card button:hover {
+  background: #0056b3;
+}
+
+/* Transaction list */
+.transaction-list {
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.transaction-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.transaction-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 1rem;
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
   background: #fff;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  align-items: center;
 }
 
-.expense-item {
+.transaction-item.income {
+  border-left: 4px solid green;
+  color: #0a730a;
+}
+
+.transaction-item.expense {
+  border-left: 4px solid red;
+  color: #c62828;
+}
+
+.transaction-amount {
+  font-weight: bold;
+  text-align: right;
+}
+
+.transaction-date {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/* Category backgrounds */
+.transaction-item.food {
+  background: #fff7f7;
+}
+.transaction-item.travel {
+  background: #f0f8ff;
+}
+.transaction-item.entertainment {
+  background: #fff8e1;
+}
+.transaction-item.shopping {
+  background: #f3e5f5;
+}
+.transaction-item.other {
+  background: #f9fbe7;
+}
+
+/* Modal styles */
+.modal {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  margin: auto;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: space-between;
-  padding: 12px;
-  margin: 8px 0;
-  border-bottom: 1px solid #e0e0e0;
+  align-items: center;
+  justify-content: center;
 }
 
-.expense-item:last-child {
-  border-bottom: none;
-}
-
-.expense-item span {
-  font-size: 1rem;
-  color: #2c3e50;
-}
-
-/* Summary and Trends */
-.summary-container,
-.trends-container {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
-  .app-container {
-    padding: 10px;
+  #root {
+    padding: 1rem;
   }
-
-  h1 {
-    font-size: 1.5rem;
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
   }
-
-  .wallet-balance {
-    font-size: 1rem;
-    padding: 15px;
-  }
-
-  button {
+  .card {
     width: 100%;
   }
-
-  .expense-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+  .transaction-item {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .transaction-amount,
+  .transaction-date {
+    margin-top: 0.3rem;
   }
 }
 
 @media (max-width: 480px) {
-  .wallet-balance {
-    font-size: 0.9rem;
+  #root {
+    padding: 0.5rem;
   }
-
-  h1 {
-    font-size: 1.3rem;
+  .card {
+    padding: 0.8rem;
+  }
+  .transaction-item {
+    font-size: 0.9rem;
   }
 }
