@@ -12,42 +12,57 @@ function App() {
   const [expenses, setExpenses] = useState(
     JSON.parse(localStorage.getItem("expenses")) || []
   );
+  const [showIncomeForm, setShowIncomeForm] = useState(false);
 
-  // Persist data
+  // Persist data to localStorage
   useEffect(() => {
     localStorage.setItem("balance", balance);
     localStorage.setItem("expenses", JSON.stringify(expenses));
   }, [balance, expenses]);
 
+  const handleAddIncomeClick = () => {
+    setShowIncomeForm(true);
+  };
+
+  const handleIncomeSubmit = (amount) => {
+    const incomeEntry = {
+      id: Date.now(),
+      title: "Income",
+      price: amount,
+      category: "income",
+      date: new Date().toISOString().split("T")[0],
+      type: "income",
+    };
+    setBalance(balance + Number(amount));
+    setExpenses([...expenses, incomeEntry]);
+    setShowIncomeForm(false);
+  };
+
   return (
-    <div id="root">
+    <div>
       <h1>Expense Tracker</h1>
-      <div className="card">
-        <WalletBalance balance={balance} />
-      </div>
-      <div className="card">
-        <ExpenseForm 
-          balance={balance} 
-          setBalance={setBalance} 
-          expenses={expenses} 
-          setExpenses={setExpenses} 
+      <WalletBalance balance={balance} onAddIncome={handleAddIncomeClick} />
+      {showIncomeForm && (
+        <ExpenseForm
+          balance={balance}
+          setBalance={setBalance}
+          expenses={expenses}
+          setExpenses={setExpenses}
+          isIncome={true}
+          onSubmitIncome={handleIncomeSubmit}
         />
-      </div>
-      <div className="card">
-        <ExpenseList 
-          expenses={expenses} 
-          setExpenses={setExpenses} 
-        />
-      </div>
-      <div className="card">
-        <ExpenseSummary expenses={expenses} />
-      </div>
-      <div className="card">
-        <ExpenseTrends expenses={expenses} />
-      </div>
+      )}
+      <ExpenseForm
+        balance={balance}
+        setBalance={setBalance}
+        expenses={expenses}
+        setExpenses={setExpenses}
+      />
+      <ExpenseList expenses={expenses} setExpenses={setExpenses} />
+      <ExpenseSummary expenses={expenses} />
+      <ExpenseTrends expenses={expenses} />
     </div>
   );
 }
 
 export default App;
-  

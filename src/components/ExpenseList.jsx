@@ -2,11 +2,11 @@ import React from "react";
 
 function ExpenseList({ expenses, setExpenses }) {
   const handleDelete = (id) => {
-    setExpenses(expenses.filter(item => item.id !== id));
+    setExpenses(expenses.filter((item) => item.id !== id));
   };
 
   return (
-    <div className="transaction-list">
+    <div className="transaction-list card">
       <h2>Transactions</h2>
       {expenses.length === 0 ? (
         <p>No transactions yet</p>
