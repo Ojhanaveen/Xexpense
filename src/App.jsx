@@ -6,32 +6,27 @@ import ExpenseSummary from "./components/ExpenseSummary";
 import ExpenseTrends from "./components/ExpenseTrends";
 
 function App() {
-  const [balance, setBalance] = useState(
-    Number(localStorage.getItem("balance")) || 5000
-  );
-  const [expenses, setExpenses] = useState(
-    JSON.parse(localStorage.getItem("expenses")) || []
-  );
+  const [balance, setBalance] = useState(Number(localStorage.getItem("balance")) || 5000);
+  const [expenses, setExpenses] = useState(JSON.parse(localStorage.getItem("expenses")) || []);
 
-  // Persist data to localStorage
   useEffect(() => {
     localStorage.setItem("balance", balance);
     localStorage.setItem("expenses", JSON.stringify(expenses));
   }, [balance, expenses]);
 
   return (
-    <div>
+    <div id="root">
       <h1>Expense Tracker</h1>
       <WalletBalance balance={balance} />
-      <ExpenseForm
-        balance={balance}
-        setBalance={setBalance}
-        expenses={expenses}
-        setExpenses={setExpenses}
+      <ExpenseForm 
+        balance={balance} 
+        setBalance={setBalance} 
+        expenses={expenses} 
+        setExpenses={setExpenses} 
       />
-      <ExpenseList
-        expenses={expenses}
-        setExpenses={setExpenses}
+      <ExpenseList 
+        expenses={expenses} 
+        setExpenses={setExpenses} 
       />
       <ExpenseSummary expenses={expenses} />
       <ExpenseTrends expenses={expenses} />
