@@ -1,3 +1,5 @@
+import React from "react";
+
 function ExpenseList({ expenses, setExpenses }) {
   const handleDelete = (id) => {
     setExpenses(expenses.filter(item => item.id !== id));
@@ -30,3 +32,5 @@ function ExpenseList({ expenses, setExpenses }) {
     </div>
   );
 }
+
+export default ExpenseList; // ✅ make sure this exists
