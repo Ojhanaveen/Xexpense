@@ -13,7 +13,7 @@ function App() {
     JSON.parse(localStorage.getItem("expenses")) || []
   );
 
-  // Save data to localStorage whenever it changes
+  // Persist data
   useEffect(() => {
     localStorage.setItem("balance", balance);
     localStorage.setItem("expenses", JSON.stringify(expenses));
@@ -22,9 +22,17 @@ function App() {
   return (
     <div>
       <h1>Expense Tracker</h1>
-      <WalletBalance balance={balance} setBalance={setBalance} />
-      <ExpenseForm balance={balance} setBalance={setBalance} expenses={expenses} setExpenses={setExpenses} />
-      <ExpenseList expenses={expenses} setExpenses={setExpenses} setBalance={setBalance} />
+      <WalletBalance balance={balance} />
+      <ExpenseForm 
+        balance={balance} 
+        setBalance={setBalance} 
+        expenses={expenses} 
+        setExpenses={setExpenses} 
+      />
+      <ExpenseList 
+        expenses={expenses} 
+        setExpenses={setExpenses} 
+      />
       <ExpenseSummary expenses={expenses} />
       <ExpenseTrends expenses={expenses} />
     </div>

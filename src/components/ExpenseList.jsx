@@ -1,6 +1,8 @@
-import React from "react";
+function ExpenseList({ expenses, setExpenses }) {
+  const handleDelete = (id) => {
+    setExpenses(expenses.filter(item => item.id !== id));
+  };
 
-function ExpenseList({ expenses }) {
   return (
     <div className="transaction-list">
       <h2>Transactions</h2>
@@ -11,7 +13,7 @@ function ExpenseList({ expenses }) {
           {expenses.map((item) => (
             <li
               key={item.id}
-              className={`transaction-item ${item.type}`}
+              className={`transaction-item ${item.type} ${item.category}`}
             >
               <div className="transaction-info">
                 <strong>{item.title}</strong> ({item.category})
@@ -20,6 +22,7 @@ function ExpenseList({ expenses }) {
                 {item.type === "income" ? "+" : "-"}₹{item.price}
               </div>
               <div className="transaction-date">{item.date}</div>
+              <button onClick={() => handleDelete(item.id)}>Delete</button>
             </li>
           ))}
         </ul>
@@ -27,5 +30,3 @@ function ExpenseList({ expenses }) {
     </div>
   );
 }
-
-export default ExpenseList;
