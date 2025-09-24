@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-function ExpenseForm({ balance, setBalance, expenses, setExpenses, isIncome, onSubmitIncome }) {
+function ExpenseForm({ balance, setBalance, expenses, setExpenses }) {
   const [formData, setFormData] = useState({
     title: "",
     price: "",
     category: "",
     date: "",
-    type: isIncome ? "income" : "expense",
+    type: "expense", // expense or income
   });
 
   const handleChange = (e) => {
@@ -15,57 +15,69 @@ function ExpenseForm({ balance, setBalance, expenses, setExpenses, isIncome, onS
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.title && !isIncome) {
-      alert("Please enter a title");
-      return;
-    }
-    if (!formData.price) {
-      alert("Please enter an amount");
+
+    if (!formData.title || !formData.price || !formData.category || !formData.date) {
+      alert("Please fill in all fields");
       return;
     }
 
     const amount = Number(formData.price);
 
-    if (!isIncome && amount > balance) {
+    // Check balance for expense
+    if (formData.type === "expense" && amount > balance) {
       alert("Insufficient balance!");
       return;
     }
 
-    const entry = {
-      id: Date.now(),
-      title: isIncome ? "Income" : formData.title,
-      price: amount,
-      category: isIncome ? "income" : formData.category,
-      date: formData.date || new Date().toISOString().split("T")[0],
-      type: isIncome ? "income" : "expense",
-    };
+    const newEntry = { ...formData, id: Date.now() };
+    setExpenses([...expenses, newEntry]);
 
-    if (isIncome && onSubmitIncome) {
-      onSubmitIncome(amount);
+    if (formData.type === "income") {
+      setBalance(balance + amount);
     } else {
-      setExpenses([...expenses, entry]);
       setBalance(balance - amount);
     }
 
-    setFormData({ title: "", price: "", category: "", date: "", type: isIncome ? "income" : "expense" });
+    // Reset form
+    setFormData({ title: "", price: "", category: "", date: "", type: "expense" });
   };
 
   return (
     <form onSubmit={handleSubmit} className="card">
-      {!isIncome && <input name="title" value={formData.title} onChange={handleChange} placeholder="Title" />}
-      <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Amount" />
-      {!isIncome && (
-        <select name="category" value={formData.category} onChange={handleChange}>
-          <option value="">Select Category</option>
-          <option value="food">Food</option>
-          <option value="travel">Travel</option>
-          <option value="entertainment">Entertainment</option>
-          <option value="shopping">Shopping</option>
-          <option value="other">Other</option>
-        </select>
-      )}
-      <input type="date" name="date" value={formData.date} onChange={handleChange} />
-      <button type="submit">{isIncome ? "Add Income" : "Add Expense"}</button>
+      <input
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        placeholder="Title"
+      />
+      <input
+        name="price"
+        type="number"
+        value={formData.price}
+        onChange={handleChange}
+        placeholder={formData.type === "income" ? "Income Amount" : "Expense Amount"}
+      />
+      <select name="type" value={formData.type} onChange={handleChange}>
+        <option value="expense">Expense</option>
+        <option value="income">Income</option>
+      </select>
+      <select name="category" value={formData.category} onChange={handleChange}>
+        <option value="">Select Category</option>
+        <option value="food">Food</option>
+        <option value="travel">Travel</option>
+        <option value="entertainment">Entertainment</option>
+        <option value="shopping">Shopping</option>
+        <option value="other">Other</option>
+      </select>
+      <input
+        type="date"
+        name="date"
+        value={formData.date}
+        onChange={handleChange}
+      />
+      <button type="submit">
+        {formData.type === "income" ? "Add Balance" : "Add Expense"}
+      </button>
     </form>
   );
 }

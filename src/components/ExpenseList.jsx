@@ -2,7 +2,7 @@ import React from "react";
 
 function ExpenseList({ expenses, setExpenses }) {
   const handleDelete = (id) => {
-    setExpenses(expenses.filter((item) => item.id !== id));
+    setExpenses(expenses.filter(item => item.id !== id));
   };
 
   return (
@@ -13,7 +13,10 @@ function ExpenseList({ expenses, setExpenses }) {
       ) : (
         <ul className="transaction-items">
           {expenses.map((item) => (
-            <li key={item.id} className={`transaction-item ${item.type} ${item.category}`}>
+            <li
+              key={item.id}
+              className={`transaction-item ${item.type} ${item.category}`}
+            >
               <div className="transaction-info">
                 <strong>{item.title}</strong> ({item.category})
               </div>

@@ -12,7 +12,6 @@ function App() {
   const [expenses, setExpenses] = useState(
     JSON.parse(localStorage.getItem("expenses")) || []
   );
-  const [showIncomeForm, setShowIncomeForm] = useState(false);
 
   // Persist data to localStorage
   useEffect(() => {
@@ -20,45 +19,20 @@ function App() {
     localStorage.setItem("expenses", JSON.stringify(expenses));
   }, [balance, expenses]);
 
-  const handleAddIncomeClick = () => {
-    setShowIncomeForm(true);
-  };
-
-  const handleIncomeSubmit = (amount) => {
-    const incomeEntry = {
-      id: Date.now(),
-      title: "Income",
-      price: amount,
-      category: "income",
-      date: new Date().toISOString().split("T")[0],
-      type: "income",
-    };
-    setBalance(balance + Number(amount));
-    setExpenses([...expenses, incomeEntry]);
-    setShowIncomeForm(false);
-  };
-
   return (
     <div>
       <h1>Expense Tracker</h1>
-      <WalletBalance balance={balance} onAddIncome={handleAddIncomeClick} />
-      {showIncomeForm && (
-        <ExpenseForm
-          balance={balance}
-          setBalance={setBalance}
-          expenses={expenses}
-          setExpenses={setExpenses}
-          isIncome={true}
-          onSubmitIncome={handleIncomeSubmit}
-        />
-      )}
+      <WalletBalance balance={balance} />
       <ExpenseForm
         balance={balance}
         setBalance={setBalance}
         expenses={expenses}
         setExpenses={setExpenses}
       />
-      <ExpenseList expenses={expenses} setExpenses={setExpenses} />
+      <ExpenseList
+        expenses={expenses}
+        setExpenses={setExpenses}
+      />
       <ExpenseSummary expenses={expenses} />
       <ExpenseTrends expenses={expenses} />
     </div>
