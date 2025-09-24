@@ -2,15 +2,24 @@ import React from "react";
 
 function ExpenseList({ expenses }) {
   return (
-    <div>
-      <h2>Expenses</h2>
+    <div className="transaction-list">
+      <h2>Transactions</h2>
       {expenses.length === 0 ? (
-        <p>No expenses yet.</p>
+        <p>No transactions yet</p>
       ) : (
-        <ul>
-          {expenses.map((expense) => (
-            <li key={expense.id}>
-              {expense.title} - ${expense.price} ({expense.category}) on {expense.date}
+        <ul className="transaction-items">
+          {expenses.map((item) => (
+            <li
+              key={item.id}
+              className={`transaction-item ${item.type}`}
+            >
+              <div className="transaction-info">
+                <strong>{item.title}</strong> ({item.category})
+              </div>
+              <div className="transaction-amount">
+                {item.type === "income" ? "+" : "-"}₹{item.price}
+              </div>
+              <div className="transaction-date">{item.date}</div>
             </li>
           ))}
         </ul>

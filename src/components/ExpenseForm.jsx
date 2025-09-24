@@ -6,6 +6,7 @@ function ExpenseForm({ balance, setBalance, expenses, setExpenses }) {
     price: "",
     category: "",
     date: "",
+    type: "expense", // ✅ new: income or expense
   });
 
   const handleChange = (e) => {
@@ -20,31 +21,61 @@ function ExpenseForm({ balance, setBalance, expenses, setExpenses }) {
       return;
     }
 
-    if (Number(formData.price) > balance) {
+    const amount = Number(formData.price);
+
+    // ✅ Handle balance based on type
+    if (formData.type === "expense" && amount > balance) {
       alert("Insufficient balance!");
       return;
     }
 
-    const newExpense = { ...formData, id: Date.now() };
-    setExpenses([...expenses, newExpense]);
-    setBalance(balance - Number(formData.price));
+    const newEntry = { ...formData, id: Date.now() };
+    setExpenses([...expenses, newEntry]);
 
-    setFormData({ title: "", price: "", category: "", date: "" }); // reset form
+    if (formData.type === "income") {
+      setBalance(balance + amount);
+    } else {
+      setBalance(balance - amount);
+    }
+
+    // reset form
+    setFormData({ title: "", price: "", category: "", date: "", type: "expense" });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input name="title" value={formData.title} onChange={handleChange} placeholder="Title" />
-      <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price" />
+      <input
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        placeholder="Title"
+      />
+      <input
+        type="number"
+        name="price"
+        value={formData.price}
+        onChange={handleChange}
+        placeholder="Price"
+      />
+      <select name="type" value={formData.type} onChange={handleChange}>
+        <option value="expense">Expense</option>
+        <option value="income">Income</option>
+      </select>
       <select name="category" value={formData.category} onChange={handleChange}>
         <option value="">Select Category</option>
         <option value="food">Food</option>
         <option value="travel">Travel</option>
+        <option value="entertainment">Entertainment</option> {/* ✅ added */}
         <option value="shopping">Shopping</option>
         <option value="other">Other</option>
       </select>
-      <input type="date" name="date" value={formData.date} onChange={handleChange} />
-      <button type="submit">Add Expense</button>
+      <input
+        type="date"
+        name="date"
+        value={formData.date}
+        onChange={handleChange}
+      />
+      <button type="submit">Add</button>
     </form>
   );
 }
