@@ -1,7 +1,6 @@
 import React from "react";
 
 function ExpenseTrends({ expenses }) {
-  // Group expenses by category for trend
   const trends = expenses.reduce((acc, expense) => {
     acc[expense.category] = (acc[expense.category] || 0) + Number(expense.price);
     return acc;

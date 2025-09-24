@@ -20,23 +20,34 @@ function App() {
   }, [balance, expenses]);
 
   return (
-    <div>
+    <div id="root">
       <h1>Expense Tracker</h1>
-      <WalletBalance balance={balance} />
-      <ExpenseForm 
-        balance={balance} 
-        setBalance={setBalance} 
-        expenses={expenses} 
-        setExpenses={setExpenses} 
-      />
-      <ExpenseList 
-        expenses={expenses} 
-        setExpenses={setExpenses} 
-      />
-      <ExpenseSummary expenses={expenses} />
-      <ExpenseTrends expenses={expenses} />
+      <div className="card">
+        <WalletBalance balance={balance} />
+      </div>
+      <div className="card">
+        <ExpenseForm 
+          balance={balance} 
+          setBalance={setBalance} 
+          expenses={expenses} 
+          setExpenses={setExpenses} 
+        />
+      </div>
+      <div className="card">
+        <ExpenseList 
+          expenses={expenses} 
+          setExpenses={setExpenses} 
+        />
+      </div>
+      <div className="card">
+        <ExpenseSummary expenses={expenses} />
+      </div>
+      <div className="card">
+        <ExpenseTrends expenses={expenses} />
+      </div>
     </div>
   );
 }
 
 export default App;
+  

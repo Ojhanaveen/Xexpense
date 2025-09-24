@@ -13,10 +13,7 @@ function ExpenseList({ expenses, setExpenses }) {
       ) : (
         <ul className="transaction-items">
           {expenses.map((item) => (
-            <li
-              key={item.id}
-              className={`transaction-item ${item.type} ${item.category}`}
-            >
+            <li key={item.id} className={`transaction-item ${item.type} ${item.category}`}>
               <div className="transaction-info">
                 <strong>{item.title}</strong> ({item.category})
               </div>
@@ -33,4 +30,4 @@ function ExpenseList({ expenses, setExpenses }) {
   );
 }
 
-export default ExpenseList; 
+export default ExpenseList;

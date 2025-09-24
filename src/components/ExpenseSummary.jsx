@@ -1,7 +1,6 @@
 import React from "react";
 
 function ExpenseSummary({ expenses }) {
-  // simple category summary
   const summary = expenses.reduce((acc, expense) => {
     acc[expense.category] = (acc[expense.category] || 0) + Number(expense.price);
     return acc;
